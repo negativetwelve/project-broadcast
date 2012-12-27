@@ -2,7 +2,8 @@ var express = require('express');
 var path = require('path');
 var http = require('http');
 var io = require('socket.io');
-var room = require('./routes/rooms');
+var room = require('./routes/room');
+var user = require('./routes/user');
 
 var app = express();
 
@@ -11,6 +12,8 @@ app.configure(function () {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.static(path.join(__dirname, 'public')));
+  app.set('view engine', 'ejs');
+  app.set('views', __dirname + '/views');
 });
 
 var server = http.createServer(app);
@@ -28,6 +31,10 @@ io.configure(function() {
 
 server.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+app.get('/', function (req, res) {
+  res.redirect('/lounge');
 });
 
 app.get('/lounge', room.findAll);
