@@ -46,9 +46,9 @@ io.sockets.on('connection', function (socket) {
     console.log('Socket disconnected.');
   });
   
-  socket.on('updatePlaying', function (room, data) {
+  socket.on('changeRoomSong', function (room, data) {
     console.log('server received updatePlaying');
-    io.sockets.emit('updatePlaying', { 'videoInfo': data });
+    io.sockets.emit('changeRoomSong', { 'videoInfo': data });
   });
   
 });
