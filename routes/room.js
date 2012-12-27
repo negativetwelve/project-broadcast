@@ -1,4 +1,24 @@
-require('../db/mongo.js');
+var mongoskin = require('mongoskin');
+var host = 'localhost';
+var port = '27017';
+var dbName = 'roomdb';
+
+var path = process.env.MONGOHQ_URL || host + ':' + port + '/' + dbName;
+var db = mongoskin.db(path, {safe: true});
+
+db.open(function (err, db) {
+  if (!err) {
+    console.log('Connected to "roomdb" database');
+    db.collection('rooms', {safe: true}, function (err, collection) {
+      if (err) {
+        console.log("The 'rooms' collection doesn't exist. Creating it with sample data...");
+        populateDB();
+      } else {
+        console.log('Got rooms!');
+      }
+    });
+  }
+});
 
 exports.findByTitle = function (req, res) {
   var title = req.params.title;
@@ -67,6 +87,8 @@ exports.deleteRoom = function (req, res) {
   });
 };
 
+
+
 /*--------------------*/
 // Populate DB
 var populateDB = function() {
@@ -92,3 +114,4 @@ var populateDB = function() {
     collection.insert(rooms, {safe: true}, function (err, result) {});
   });
 };
+
