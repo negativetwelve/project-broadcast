@@ -1,22 +1,4 @@
-var mongo = require('mongodb');
-var Server = mongo.Server;
-var DB = mongo.Db;
-var BSON = mongo.BSONPure;
-
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new DB('roomdb', server, {safe: true});
-
-db.open(function (err, db) {
-  if (!err) {
-    console.log('Connected to "roomdb" database');
-    db.collection('rooms', {safe: true}, function (err, collection) {
-      if (err) {
-        console.log("The 'rooms' collection doesn't exist. Creating it with sample data...");
-        populateDB();
-      }
-    });
-  }
-});
+require('../db/mongo.js');
 
 exports.findByTitle = function (req, res) {
   var title = req.params.title;

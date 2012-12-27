@@ -2,10 +2,14 @@
   "name": "broadcaster.tv",
   "description": "Broadcast with your friends",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node server"
+  },
   "dependencies": {
     "express": "3.x",
     "ejs": "*",
-    "mongodb": "1.1.8",
+    "mongodb": "1.2.7",
+    "mongoskin": "*",
     "socket.io": "0.9.10"
   },
   "engines": {
