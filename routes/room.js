@@ -12,7 +12,7 @@ var path = process.env.MONGOHQ_URL || 'mongohq://' + host + ':' + port + '/' + d
 var db = mongoskin.db(path, serverOptions);
 
 db.collection('rooms').find().toArray(function (err, rooms) {
-  if (err) {
+  if (rooms.length === 0) {
     console.log('populating db');
     populateDB();
     console.log('done populating');
