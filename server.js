@@ -27,6 +27,8 @@ io.configure(function() {
       callback(null, true);
     }
   });
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 1); 
 });
 
 server.listen(app.get('port'), function () {
