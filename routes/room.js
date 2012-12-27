@@ -11,7 +11,7 @@ var serverOptions = {
 var path = process.env.MONGOHQ_URL || 'mongohq://' + host + ':' + port + '/' + dbName;
 var db = mongoskin.db(path, serverOptions);
 
-db.collection('rooms').find().toArray(function(err, result) {
+db.collection('rooms').find().toArray(function (err, result) {
     if (err) throw err;
     console.log(result);
 });
