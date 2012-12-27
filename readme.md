@@ -9,7 +9,7 @@ Running the App
 ---------------
 To run the program:
 
-  npm install -d
+    npm install -d
 
 Runs on port 3000 unless otherwise specified.
 
