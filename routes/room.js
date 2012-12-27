@@ -2,39 +2,35 @@ var mongoskin = require('mongoskin');
 var host = 'localhost';
 var port = '27017';
 var dbName = 'roomdb';
+var serverOptions = {
+    'auto_reconnect': true,
+    'poolSize': 5,
+    'safe': true
+};
 
-var path = process.env.MONGOHQ_URL || host + ':' + port + '/' + dbName;
-var db = mongoskin.db(path, {safe: true});
+var path = process.env.MONGOHQ_URL || 'mongohq://' + host + ':' + port + '/' + dbName;
+var db = mongoskin.db(path, serverOptions);
 
-db.open(function (err, db) {
-  if (!err) {
-    console.log('Connected to "roomdb" database');
-    db.collection('rooms', {safe: true}, function (err, collection) {
-      if (err) {
-        console.log("The 'rooms' collection doesn't exist. Creating it with sample data...");
-        populateDB();
-      } else {
-        console.log('Got rooms!');
-      }
-    });
+db.collection('rooms').find().toArray(function (err, rooms) {
+  if (rooms.length === 0) {
+    console.log('populating db');
+    populateDB();
+    console.log('done populating');
   }
 });
 
 exports.findByTitle = function (req, res) {
   var title = req.params.title;
   console.log('Retrieving room: ' + title);
-  db.collection('rooms', function (err, collection) {
-    collection.findOne({'title': title }, function (err, item) {
-      res.render('room', {page: 'room', item: item});
-    });
+  db.collection('rooms').findOne({'title': title }, function (err, item) {
+    res.render('room', {page: 'room', item: item});
   });
 };
 
 exports.findAll = function (req, res) {
-  db.collection('rooms', function (err, collection) {
-    collection.find().toArray(function (err, items) {
-      res.render('lounge', {page: 'lounge', items: items});
-    });
+  console.log('findAll triggered');
+  db.collection('rooms').find().toArray(function (err, items) {
+    res.render('lounge', {page: 'lounge', items: items});
   });
 };
 
@@ -44,46 +40,40 @@ exports.updateRoom = function (req, res) {
   delete room._title;
   console.log('Updating room: ' + title);
   console.log(JSON.stringify(room));
-  db.collection('rooms', function (err, collection) {
-    collection.update({'_title': room.title}, room, {safe: true}, function (err, result) {
-      if (err) {
-        console.log('Error updating room: ' + err);
-        res.send({'error': 'An error has occurred'});
-      } else {
-        console.log(result + ' document(s) updated');
-        res.send(room);
-      }
-    });
+  db.collection('rooms').update({'_title': room.title}, room, {safe: true}, function (err, result) {
+    if (err) {
+      console.log('Error updating room: ' + err);
+      res.send({'error': 'An error has occurred'});
+    } else {
+      console.log(result + ' document(s) updated');
+      res.send(room);
+    }
   });
 };
 
 exports.addRoom = function (req, res) {
   var room = req.body;
   console.log('Adding room: ' + JSON.stringify(room));
-  db.collection('rooms', function (err, collection) {
-    collection.insert(room, {safe: true}, function (err, result) {
-      if (err) {
-        res.send({'error': 'An error has occurred'});
-      } else {
-        console.log(result + ' document(s) deleted');
-        res.send(req.body);
-      }
-    });
+  db.collection('rooms').insert(room, {safe: true}, function (err, result) {
+    if (err) {
+      res.send({'error': 'An error has occurred'});
+    } else {
+      console.log(result + ' document(s) deleted');
+      res.send(req.body);
+    }
   });
 };
 
 exports.deleteRoom = function (req, res) {
   var title = req.params.title;
   console.log('Deleting room: ' + title);
-  db.collection('rooms', function (err, collection) {
-    collection.remove({'_title': title}, {safe: true}, function (err, result) {
-      if (err) {
-        res.send({'error': 'An error has occurred - ' + err});
-      } else {
-        console.log(result + ' document(s) deleted');
-        res.send(req.body);
-      }
-    });
+  db.collection('rooms').remove({'_title': title}, {safe: true}, function (err, result) {
+    if (err) {
+      res.send({'error': 'An error has occurred - ' + err});
+    } else {
+      console.log(result + ' document(s) deleted');
+      res.send(req.body);
+    }
   });
 };
 
@@ -110,8 +100,6 @@ var populateDB = function() {
     title: 'video-game-replays'
   }];
   
-  db.collection('rooms', function (err, collection) {
-    collection.insert(rooms, {safe: true}, function (err, result) {});
-  });
+  db.collection('rooms').insert(rooms, {safe: true}, function (err, result) {});
 };
 
