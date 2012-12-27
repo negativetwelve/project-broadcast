@@ -1,10 +1,23 @@
 <% include partials/head %>
 <% include partials/header %>
-<% include partials/container-open %>
 
-<%= item.name %>
-<div id="player"></div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <%= item.name %>
+    <div id="player"></div>
+
+    <div class="row-fluid">
+      <div>
+          <input type="text" id="youtube" name="youtube" value=""/>
+          <a href="#" class="btn btn-primary changeRoomVideo">Update video</a>
+      </div>
+      Youtube Data
+      <div id="youtube-data">
+                    
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="js/room.js"></script>
-<% include partials/container-close %>
 <% include partials/footer %>

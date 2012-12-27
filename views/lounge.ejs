@@ -1,13 +1,16 @@
 <% include partials/head %>
 <% include partials/header %>
-<% include partials/container-open %>
 
-<div class="span12">
-  <ul>
-    <% for(var i in items) { var item = items[i]; %>
-      <li><a href="/<%= item.title %>"><%= item.name %></a></li>
-    <% } %>
-  </ul>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <ul>
+        <% for(var i in items) { var item = items[i]; %>
+          <li><a href="/<%= item.title %>"><%= item.name %></a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <% include partials/container-close %>

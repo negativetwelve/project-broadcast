@@ -53,9 +53,11 @@ io.sockets.on('connection', function (socket) {
     console.log('Socket disconnected.');
   });
   
-  socket.on('changeRoomSong', function (room, data) {
-    console.log('server received updatePlaying');
-    io.sockets.emit('changeRoomSong', { 'videoInfo': data });
+  socket.on('changeRoomVideo', function(data) {
+    console.log('server.js received changeRoomVideo');
+    console.log(data);
+    io.sockets.emit('changeRoomVideo', { 'youtube': data });
   });
+
   
 });

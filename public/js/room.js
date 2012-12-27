@@ -16,6 +16,19 @@ function initPlayer() {
   });
 };
 
+function play() {
+  jQuery("#player").tubeplayer("play");
+};
+
+function play(videoId) {
+  if (videoId == "") {
+    play();
+  } else {
+    stop();
+    jQuery("#player").tubeplayer("play", videoId);
+  }
+};
+
 var socket = io.connect();
 socket.on('connect', function () {
   console.log('Socket connected');
@@ -27,4 +40,11 @@ socket.on('connect', function () {
     $('#youtube-data').html(video['youtube']['youtube']);
     play(video['youtube']['youtube']);
   });
+});
+
+$('.changeRoomVideo').click(function (event) {
+  event.preventDefault();
+  console.log('changeRoomVideo called');
+  var input = document.getElementById('youtube').value;
+  socket.emit('changeRoomVideo', { 'youtube': input });
 });
