@@ -1,0 +1,16 @@
+<% include partials/head %>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <ul id="global-nav" class="nav pull-left"><a href="#" class="brand">Control Panel</a></ul>
+      <button id="btn-logout" class="btn btn-primary"><i class="icon-lock icon-white"></i>Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<% include account %>
+<% include modals/alert %>
+<% include modals/confirm %>
+<script src="/js/views/home.js"></script>
+<script src="/js/controllers/homeController.js"></script>
