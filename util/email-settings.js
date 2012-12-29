@@ -1,8 +1,8 @@
 module.exports = {
 	
 	host		: 'smtp.gmail.com',
-	user 		: 'your-email-address@gmail.com',
-	password 	: 'your-email-password',
-	sender		: 'Your Name <your-email-address@gmail.com>'
+	user 		: process.env.EMAIL_USERNAME,
+	password 	: process.env.EMAIL_PASSWORD,
+	sender		: process.env.EMAIL_SENDER
 	
 }
