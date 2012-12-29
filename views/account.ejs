@@ -1,5 +1,5 @@
-<% include partials/head %>
-<input type="hidden" id="userId">
+<% user = typeof(udata) != 'undefined' ? udata : {name: '', _id: '', email: '', country: '', user: ''} %>
+<input type="hidden" id="userId" value="<%= user._id %>">
 <div id="account-form-container">
   <form method="post" id="account-form" class="form-horizontal well span6">
     <h1></h1>
@@ -9,13 +9,13 @@
       <div id="name-cg" class="control-group">
         <label for="name-tf" class="control-label">Name</label>
         <div class="controls">
-          <input id="name-tf" type="text" name="name" class="input-xlarge">
+          <input id="name-tf" type="text" name="name" class="input-xlarge" value="<%= user.name %>">
         </div>
       </div>
       <div id="email-cg" class="control-group">
         <label for="email-tf" class="control-label">Email</label>
         <div class="controls">
-          <input id="email-tf" type="text" name="email" class="input-xlarge">
+          <input id="email-tf" type="text" name="email" class="input-xlarge" value="<%= user.email %>">
         </div>
       </div>
       <div id="clist-cg" class="control-group">
@@ -23,7 +23,7 @@
         <div class="controls">
           <select id="country-list" name="country">
             <% for (var i in countries) { var country = countries[i]; %>
-              <option selected="<%= country.name == user.country %>"><%= country.name %></option>
+              <option <%= country.name == user.country ? 'selected' : '' %>><%= country.name %></option>
             <% } %>
           </select>
         </div>
@@ -33,7 +33,7 @@
       <div id="user-cg" class="control-group">
         <label for="user-tf" class="control-label">Username</label>
         <div class="controls">
-          <input id="user-tf" type="text" name="user" class="input-xlarge disabled">
+          <input id="user-tf" type="text" name="user" class="input-xlarge disabled" value="<%= user.user %>">
         </div>
       </div>
       <div id="pass-cg" class="control-group">
@@ -51,4 +51,5 @@
 </div>
 
 <% include modals/form-errors %>
-<script src="/js/form-validators/accountValidator.js">
+<script src="/lib/jquery.form.js"></script>
+<script src="/js/form-validators/accountValidator.js"></script>
