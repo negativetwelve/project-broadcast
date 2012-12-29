@@ -67,7 +67,7 @@ AccountValidator.prototype.validateForm = function()
 	}
 	if (this.validateName(this.formFields[2].val()) == false) {
 		this.controlGroups[2].addClass('error');
-		e.push('Please Choose A Username');
+		e.push('Please choose a username that is at least 3 characters.');
 	}
 	if (this.validatePassword(this.formFields[3].val()) == false) {
 		this.controlGroups[3].addClass('error');
